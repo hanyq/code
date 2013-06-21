@@ -1,10 +1,11 @@
-package com.kingdowin.config.db.utils;
+package org.hanyq.generator.db.utils;
 
 import java.util.Arrays;
 import java.util.List;
 
-import com.kingdowin.config.db.meta.DbField;
-import com.kingdowin.config.db.meta.DbTable;
+import org.hanyq.generator.db.meta.DbField;
+import org.hanyq.generator.db.meta.DbTable;
+
 import com.kingdowin.newlol.domain.user.User;
 
 public class SqlGenerator {

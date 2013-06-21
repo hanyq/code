@@ -1,18 +1,19 @@
-package com.kingdowin.config.db;
+package org.hanyq.generator.db;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.kingdowin.config.db.meta.DbTable;
-import com.kingdowin.config.db.meta.MapperDefinition;
-import com.kingdowin.config.db.sourcegenerator.ISourceGenerator;
-import com.kingdowin.config.db.sourcegenerator.impl.AllTableSourceGenerator;
-import com.kingdowin.config.db.sourcegenerator.impl.DaoContainerSourceGenerator;
-import com.kingdowin.config.db.sourcegenerator.impl.DaoSourceGenerator;
-import com.kingdowin.config.db.sourcegenerator.impl.JavaMapperSouceGenerator;
-import com.kingdowin.config.db.sourcegenerator.impl.TableSourceGenerator;
-import com.kingdowin.config.db.sourcegenerator.impl.XmlMapperSouceGenerator;
-import com.kingdowin.config.db.utils.Java2table;
+import org.hanyq.generator.db.meta.DbTable;
+import org.hanyq.generator.db.meta.MapperDefinition;
+import org.hanyq.generator.db.sourcegenerator.ISourceGenerator;
+import org.hanyq.generator.db.sourcegenerator.impl.AllTableSourceGenerator;
+import org.hanyq.generator.db.sourcegenerator.impl.DaoContainerSourceGenerator;
+import org.hanyq.generator.db.sourcegenerator.impl.DaoSourceGenerator;
+import org.hanyq.generator.db.sourcegenerator.impl.JavaMapperSouceGenerator;
+import org.hanyq.generator.db.sourcegenerator.impl.TableSourceGenerator;
+import org.hanyq.generator.db.sourcegenerator.impl.XmlMapperSouceGenerator;
+import org.hanyq.generator.db.utils.Java2table;
+
 import com.kingdowin.newlol.domain.hero.Card;
 import com.kingdowin.newlol.domain.item.Item;
 import com.kingdowin.newlol.domain.user.Account;

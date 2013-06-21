@@ -1,10 +1,11 @@
-package com.kingdowin.config.db.meta;
+package org.hanyq.generator.db.meta;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.kingdowin.config.db.config.Configs;
-import com.kingdowin.config.db.utils.NameConvertor;
+import org.hanyq.generator.db.config.Configs;
+import org.hanyq.generator.db.utils.NameConvertor;
+
 
 public class DbTable {
 	private Class<?> clazz;

@@ -1,11 +1,12 @@
-package com.kingdowin.config.db.utils;
+package org.hanyq.generator.db.utils;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
-import com.kingdowin.config.db.meta.DbField;
-import com.kingdowin.config.db.meta.DbTable;
+import org.hanyq.generator.db.meta.DbField;
+import org.hanyq.generator.db.meta.DbTable;
+
 
 public class Java2table {
 	

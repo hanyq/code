@@ -1,4 +1,4 @@
-package com.kingdowin.config.db.meta;
+package org.hanyq.generator.db.meta;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -7,8 +7,7 @@ import java.util.Map;
 
 
 /**
- * Mapper的定义
- * @author hanyongqiang
+ * Mapper的定�? * @author hanyongqiang
  *
  * @date 2013-6-17
  */

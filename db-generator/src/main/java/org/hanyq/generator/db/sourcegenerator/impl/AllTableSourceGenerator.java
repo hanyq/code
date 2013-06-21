@@ -1,9 +1,10 @@
-package com.kingdowin.config.db.sourcegenerator.impl;
+package org.hanyq.generator.db.sourcegenerator.impl;
 
 import java.util.List;
 
-import com.kingdowin.config.db.meta.MapperDefinition;
-import com.kingdowin.config.db.sourcegenerator.AbstractSourceGenerator;
+import org.hanyq.generator.db.meta.MapperDefinition;
+import org.hanyq.generator.db.sourcegenerator.AbstractSourceGenerator;
+
 
 public class AllTableSourceGenerator extends AbstractSourceGenerator<List<MapperDefinition>> {
 	private TableSourceGenerator tableGenerator;

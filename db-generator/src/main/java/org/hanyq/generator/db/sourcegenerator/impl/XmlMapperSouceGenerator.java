@@ -1,4 +1,4 @@
-package com.kingdowin.config.db.sourcegenerator.impl;
+package org.hanyq.generator.db.sourcegenerator.impl;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -8,12 +8,12 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
+import org.hanyq.generator.db.meta.DbField;
+import org.hanyq.generator.db.meta.DbTable;
+import org.hanyq.generator.db.meta.MapperDefinition;
+import org.hanyq.generator.db.sourcegenerator.AbstractSourceGenerator;
+import org.hanyq.generator.db.utils.SqlGenerator;
 
-import com.kingdowin.config.db.meta.DbField;
-import com.kingdowin.config.db.meta.DbTable;
-import com.kingdowin.config.db.meta.MapperDefinition;
-import com.kingdowin.config.db.sourcegenerator.AbstractSourceGenerator;
-import com.kingdowin.config.db.utils.SqlGenerator;
 
 public class XmlMapperSouceGenerator extends AbstractSourceGenerator<MapperDefinition> {
 	
