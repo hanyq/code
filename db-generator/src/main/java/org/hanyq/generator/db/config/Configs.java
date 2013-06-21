@@ -1,4 +1,4 @@
-package com.kingdowin.config.db.config;
+package org.hanyq.generator.db.config;
 
 public interface Configs {
 	String JAVA_MAPPER_PACKAGE = "com.kingdowin.newlol.db.mapper";

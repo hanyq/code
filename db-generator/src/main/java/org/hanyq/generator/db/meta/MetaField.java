@@ -1,4 +1,4 @@
-package com.kingdowin.config.db.meta;
+package org.hanyq.generator.db.meta;
 
 import java.lang.reflect.Field;
 

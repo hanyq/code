@@ -1,4 +1,4 @@
-package com.kingdowin.config.db.sourcegenerator;
+package org.hanyq.generator.db.sourcegenerator;
 
 public interface ISourceGenerator<T> {
 	

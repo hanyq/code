@@ -1,9 +1,10 @@
-package com.kingdowin.config.db.meta;
+package org.hanyq.generator.db.meta;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.kingdowin.config.db.utils.NameConvertor;
+import org.hanyq.generator.db.utils.NameConvertor;
+
 
 public class DbField {
 	private static Map<Class<?>, DbFieldMeta> java2DbTypeMap;

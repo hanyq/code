@@ -1,4 +1,4 @@
-package com.kingdowin.config.db.sourcegenerator;
+package org.hanyq.generator.db.sourcegenerator;
 
 import freemarker.template.Configuration;
 

@@ -1,13 +1,14 @@
-package com.kingdowin.config.db.sourcegenerator.impl;
+package org.hanyq.generator.db.sourcegenerator.impl;
 
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.kingdowin.config.db.config.Configs;
-import com.kingdowin.config.db.meta.DbTable;
-import com.kingdowin.config.db.meta.MapperDefinition;
-import com.kingdowin.config.db.sourcegenerator.AbstractSourceGenerator;
+import org.hanyq.generator.db.config.Configs;
+import org.hanyq.generator.db.meta.DbTable;
+import org.hanyq.generator.db.meta.MapperDefinition;
+import org.hanyq.generator.db.sourcegenerator.AbstractSourceGenerator;
+
 
 public class DaoContainerSourceGenerator extends AbstractSourceGenerator<List<MapperDefinition>> {
 	

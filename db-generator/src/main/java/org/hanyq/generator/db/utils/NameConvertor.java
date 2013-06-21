@@ -1,4 +1,4 @@
-package com.kingdowin.config.db.utils;
+package org.hanyq.generator.db.utils;
 
 public class NameConvertor {
 	
