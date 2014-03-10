@@ -16,7 +16,7 @@ public class AllTableSourceGenerator extends AbstractSourceGenerator<List<Mapper
 	
 	@Override
 	protected String getSouceName(List<MapperDefinition> mapperDefinitions) {
-		return "newlol_tables.sql";
+		return "all_tables.sql";
 	}
 
 	@Override

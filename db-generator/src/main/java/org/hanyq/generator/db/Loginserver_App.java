@@ -3,6 +3,7 @@ package org.hanyq.generator.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hanyq.generator.db.config.Configs;
 import org.hanyq.generator.db.meta.DbTable;
 import org.hanyq.generator.db.meta.MapperDefinition;
 import org.hanyq.generator.db.sourcegenerator.ISourceGenerator;
@@ -14,22 +15,24 @@ import org.hanyq.generator.db.sourcegenerator.impl.TableSourceGenerator;
 import org.hanyq.generator.db.sourcegenerator.impl.XmlMapperSouceGenerator;
 import org.hanyq.generator.db.utils.Java2table;
 
-import com.kingdowin.newlol.domain.hero.Card;
-import com.kingdowin.newlol.domain.item.Item;
-import com.kingdowin.newlol.domain.user.Account;
-import com.kingdowin.newlol.domain.user.User;
+import com.qn.landgrabber.model.user.User;
+import com.qn.loginserver.model.account.Account;
+import com.qn.loginserver.model.server.GameServer;
 
-public class App {
+
+public class Loginserver_App {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String javaMapperDir = "E:\\Workspace\\newlol-backend\\src\\main\\java\\com\\kingdowin\\newlol\\db\\mapper\\";
-		String xmlMapperDir = "E:\\Workspace\\newlol-backend\\src\\main\\resources\\config\\db\\mapper\\";
-		String sqlMapperDir = "E:\\Workspace\\newlol-backend\\src\\main\\resources\\config\\db\\sql\\";
-		String daoDir = "E:\\Workspace\\newlol-backend\\src\\main\\java\\com\\kingdowin\\newlol\\db\\dao\\";
-		String daoContainerDir = "E:\\Workspace\\newlol-backend\\src\\main\\java\\com\\kingdowin\\newlol\\db\\";
+		Configs.reload("/loginserver_configs.xml");
+		
+		String javaMapperDir = Configs.javaMapperDir;
+		String xmlMapperDir = Configs.xmlMapperDir;
+		String sqlMapperDir = Configs.sqlMapperDir;
+		String daoDir = Configs.daoDir;
+		String daoContainerDir = Configs.daoContainerDir;
 		
 		List<ISourceGenerator<MapperDefinition>> generators = new ArrayList<ISourceGenerator<MapperDefinition>>();
 		
@@ -41,14 +44,14 @@ public class App {
 		
 		
 		List<ISourceGenerator<List<MapperDefinition>>> containerGenerators = new ArrayList<ISourceGenerator<List<MapperDefinition>>>();
-		containerGenerators.add(new DaoContainerSourceGenerator(daoContainerDir));
+		//containerGenerators.add(new DaoContainerSourceGenerator(daoContainerDir));
 		containerGenerators.add(new AllTableSourceGenerator(sqlMapperDir));
 		
 		List<MapperDefinition> defs = new ArrayList<MapperDefinition>(); 
-		defs.add(getUserDef());
+		//defs.add(getUserDef());
 		defs.add(getAccountDef());
-		defs.add(getCardDef());
-		defs.add(getItemDef());
+		//defs.add(getCardDef());
+		defs.add(getGameServerDef());
 		
 		
 		for(MapperDefinition def : defs){
@@ -79,16 +82,30 @@ public class App {
 	}
 	
 	private static MapperDefinition getAccountDef(){
-		DbTable table = Java2table.java2table(Account.class, "account");
+		DbTable table = Java2table.java2table(Account.class, "accountId");
 		MapperDefinition def = new MapperDefinition(table);
 		
-		def.addUpdateSql("updateAccountTime", "createTime", "loginTime", "lastActiveTime");
+		def.addLoadSql("loadAccountByKey", "loginType", "account");
+		def.addUpdateSql("updateAccountLogin", "token", "loginTime", "password");
+		def.addUpdateSql("updateAccountLoginServer", "lastLoginServer");
+		
+		def.setLoadMaxSqlName("loadMaxAccountId");
+		def.setLoadMaxColumn("accountId");
+		
+		return def;
+	}
+	
+	private static MapperDefinition getGameServerDef(){
+		DbTable table = Java2table.java2table(GameServer.class, "serverId");
+		MapperDefinition def = new MapperDefinition(table);
+		
+		def.addUpdateSql("updateServerState", "state");
 		
 		
 		return def;
 	}
 	
-	private static MapperDefinition getCardDef(){
+/*	private static MapperDefinition getCardDef(){
 		DbTable table = Java2table.java2table(Card.class, "cardId");
 		MapperDefinition def = new MapperDefinition(table);
 		
@@ -111,5 +128,5 @@ public class App {
 		def.setLoadMaxColumn("itemId");
 		
 		return def;
-	}
+	}*/
 }

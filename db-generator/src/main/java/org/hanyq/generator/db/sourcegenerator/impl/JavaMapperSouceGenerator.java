@@ -32,7 +32,7 @@ public class JavaMapperSouceGenerator extends AbstractSourceGenerator<MapperDefi
 		
 		Set<String> importSet = new TreeSet<String>();
 		importSet.add("java.util.List");
-		importSet.add("com.kingdowin.newlol.endpoint.annotation.Param");
+		importSet.add("org.apache.ibatis.annotations.Param");
 		importSet.add(table.getBeanFullName());
 		
 		for(String importItem : importSet){
@@ -45,7 +45,12 @@ public class JavaMapperSouceGenerator extends AbstractSourceGenerator<MapperDefi
 		
 		
 		if(mapperDefinition.getLoadMaxColumn() != null){
-			sb.append("\t").append("Long");
+			if("long".equals(table.getFieldType(mapperDefinition.getLoadMaxColumn()))){
+				sb.append("\t").append("Long");
+			}
+			else{
+				sb.append("\t").append("Integer");
+			}
 			sb.append(" ").append(mapperDefinition.getLoadMaxSqlName()).append("(@Param(\"minId\") long minId, @Param(\"maxId\") long maxId);").append("\r\n");
 			sb.append("\r\n");
 		}
@@ -90,9 +95,19 @@ public class JavaMapperSouceGenerator extends AbstractSourceGenerator<MapperDefi
 		}
 		
 		//deleteXXX
-		sb.append("\r\n");
+		/*sb.append("\r\n");
 		sb.append("\t").append("void delete").append(beanName).append("(");
 		sb.append(beanName).append(" ").append(Character.toLowerCase(beanName.charAt(0)) + beanName.substring(1)).append(");\r\n");
+	*/
+		sb.append("\r\n");
+		sb.append("\t").append("void delete").append(beanName).append("(");
+		for(String pkey : table.getPkeys()){
+			sb.append("@Param(\"").append(pkey).append("\") ").append(table.getFieldType(pkey)).append(" ").append(pkey).append(", ");
+		}
+		sb.deleteCharAt(sb.length() - 1);
+		sb.deleteCharAt(sb.length() - 1);
+		
+		sb.append(");\r\n");
 	
 		
 		sb.append("\r\n").append("}");

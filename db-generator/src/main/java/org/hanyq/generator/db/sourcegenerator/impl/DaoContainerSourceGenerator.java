@@ -27,7 +27,7 @@ public class DaoContainerSourceGenerator extends AbstractSourceGenerator<List<Ma
 		sb.append("package ").append(Configs.JAVA_DAO_CONTAINER_PACKAGE).append(";\r\n\r\n");
 		
 		Set<String> importSet = new TreeSet<String>();
-		importSet.add("com.kingdowin.newlol.utils.BeanContainers");
+		importSet.add("com.qn.gameserver.core.utils.BeanContainers");
 		for(MapperDefinition def : mapperDefinitions){
 			importSet.add(Configs.JAVA_DAO_PACKAGE + "." + def.getTable().getDaoName());
 		}

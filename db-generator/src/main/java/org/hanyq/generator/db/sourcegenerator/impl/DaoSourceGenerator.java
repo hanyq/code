@@ -34,7 +34,7 @@ public class DaoSourceGenerator extends AbstractSourceGenerator<MapperDefinition
 		importSet.add("java.util.List");
 		importSet.add("org.springframework.beans.factory.annotation.Autowired");
 		importSet.add("org.springframework.stereotype.Component");
-		importSet.add("com.kingdowin.newlol.db.AbstractMybatisDao");
+		importSet.add(Configs.JAVA_DAO_CONTAINER_PACKAGE + ".AbstractMybatisDao");
 		importSet.add(table.getMapperFullName());
 		importSet.add(table.getBeanFullName());
 		
@@ -53,10 +53,17 @@ public class DaoSourceGenerator extends AbstractSourceGenerator<MapperDefinition
 		
 		
 		if(mapperDefinition.getLoadMaxColumn() != null){
+			String fieldType  = table.getFieldType(mapperDefinition.getLoadMaxColumn());
 			sb.append("\tpublic ").append(table.getFieldType(mapperDefinition.getLoadMaxColumn())).append(" ");
 			sb.append(mapperDefinition.getLoadMaxSqlName()).append("(long minId, long maxId){").append("\r\n");
-			sb.append("\t\t").append("Long currMaxId = mapper.").append(mapperDefinition.getLoadMaxSqlName()).append("(minId, maxId);").append("\r\n");
-			sb.append("\t\t").append("return currMaxId == null ? 0 : currMaxId.longValue();").append("\r\n");
+			
+			if("long".equals(fieldType)){
+				sb.append("\t\t").append("Long currMaxId = mapper.").append(mapperDefinition.getLoadMaxSqlName()).append("(minId, maxId);").append("\r\n");
+				sb.append("\t\t").append("return currMaxId == null ? 0 : currMaxId.longValue();").append("\r\n");
+			}else{
+				sb.append("\t\t").append("Integer currMaxId = mapper.").append(mapperDefinition.getLoadMaxSqlName()).append("(minId, maxId);").append("\r\n");
+				sb.append("\t\t").append("return currMaxId == null ? 0 : currMaxId.intValue();").append("\r\n");
+			}
 			sb.append("\t").append("}").append("\r\n");
 			sb.append("\r\n");
 		}
@@ -137,10 +144,35 @@ public class DaoSourceGenerator extends AbstractSourceGenerator<MapperDefinition
 		sb.append("\t").append("public void delete").append(beanName).append("(");
 		sb.append(beanName).append(" ").append(Character.toLowerCase(beanName.charAt(0)) + beanName.substring(1)).append(") {\r\n");
 		
-		sb.append("\t\t").append("mapper.delete").append(beanName).append("(");
-		sb.append(Character.toLowerCase(beanName.charAt(0)) + beanName.substring(1)).append(");\r\n");
+		sb.append("\t\t").append("delete").append(beanName).append("(");
+		for(String pkey : table.getPkeys()){
+			sb.append(Character.toLowerCase(beanName.charAt(0)) + beanName.substring(1)).append(".get").append(Character.toUpperCase(pkey.charAt(0)) + pkey.substring(1)).append("(), ");
+		}
+		sb.deleteCharAt(sb.length() - 1);
+		sb.deleteCharAt(sb.length() - 1);
+		sb.append(");\r\n");
 		
 		sb.append("\t").append("} \r\n");
+		
+		
+		sb.append("\r\n");
+		sb.append("\t").append("public void delete").append(beanName).append("(");
+		for(String pkey : table.getPkeys()){
+			sb.append(table.getFieldType(pkey)).append(" ").append(pkey).append(", ");
+		}
+		sb.deleteCharAt(sb.length() - 1);
+		sb.deleteCharAt(sb.length() - 1);
+		
+		sb.append("){\r\n");
+		sb.append("\t\t").append("mapper.delete").append(beanName).append("(");
+		for(String pkey : table.getPkeys()){
+			sb.append(pkey).append(", ");
+		}
+		sb.deleteCharAt(sb.length() - 1);
+		sb.deleteCharAt(sb.length() - 1);
+		sb.append(");\r\n");
+		sb.append("\t").append("} \r\n");
+		
 		
 		sb.append("\r\n").append("}");
 		

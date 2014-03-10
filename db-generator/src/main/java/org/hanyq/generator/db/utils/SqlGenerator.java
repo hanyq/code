@@ -6,7 +6,8 @@ import java.util.List;
 import org.hanyq.generator.db.meta.DbField;
 import org.hanyq.generator.db.meta.DbTable;
 
-import com.kingdowin.newlol.domain.user.User;
+import com.qn.landgrabber.model.user.User;
+
 
 public class SqlGenerator {
 	
