@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root>	
+	<JAVA_MAPPER_PACKAGE>com.qn.loginserver.db.mapper</JAVA_MAPPER_PACKAGE>
+	<JAVA_DAO_PACKAGE>com.qn.loginserver.db.dao</JAVA_DAO_PACKAGE>
+	<JAVA_DAO_CONTAINER_PACKAGE>com.qn.loginserver.db</JAVA_DAO_CONTAINER_PACKAGE>
+	
+	<javaMapperDir>E:\Workspace\eclipse\landgrabber-loginserver\src\com\qn\loginserver\db\mapper\</javaMapperDir>
+	<xmlMapperDir>E:\Workspace\eclipse\landgrabber-loginserver\resources\config\db\mapper\</xmlMapperDir>
+	<sqlMapperDir>E:\Workspace\eclipse\landgrabber-loginserver\resources\config\db\sql\</sqlMapperDir>
+	<daoDir>E:\Workspace\eclipse\landgrabber-loginserver\src\com\qn\loginserver\db\dao\</daoDir>
+	<daoContainerDir>E:\Workspace\eclipse\landgrabber-loginserver\src\com\qn\loginserver\db\</daoContainerDir>
+</root>
