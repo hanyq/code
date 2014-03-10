@@ -40,7 +40,7 @@ public class App {
 				if (meta.isSkip()) {
 					skippedExcelMetaList.add(meta.getMetaSheet());
 				} else {
-					System.out.println(meta.getJavaConfigClass());
+					System.out.println(meta.getJavaConfigClass() + "===" + meta.getExcelSheet());
 
 					Document doc = convertor.toXml(meta);
 					convertor.saveDocument(destXmlPath, doc);

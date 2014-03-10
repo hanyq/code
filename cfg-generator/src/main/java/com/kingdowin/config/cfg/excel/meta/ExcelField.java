@@ -35,6 +35,10 @@ public class ExcelField
   public boolean isNumber() {
     return (!isString()) && (!isSkip());
   }
+  
+  public boolean isFloat() {
+	    return "float".equalsIgnoreCase(this.type) || "double".equalsIgnoreCase(this.type);
+	  }
 
   public String getGetName() {
     String upperName = this.name.substring(0, 1).toUpperCase() + this.name.substring(1, this.name.length());

@@ -26,7 +26,7 @@ public class JavaFactoryGenerator {
 
 		
 		sb.append("\r\n");
-		sb.append("import com.kingdowin.framework.cfg.CfgManager;").append("\r\n");
+		sb.append("import com.qn.gameserver.core.cfg.CfgManager;").append("\r\n");
 		Set<String> newImportSet = new HashSet<String>();
 		String newImport;
 		for (ExcelMeta meta : metas) {
@@ -59,9 +59,24 @@ public class JavaFactoryGenerator {
 						.append(".class);\r\n");
 				sb.append("\t}").append("\r\n");
 				sb.append("\r\n");
+				
+				oldClassSet.remove(meta.getJavaContainerClass());
 			}
 		}
 
+		for (String oldClass : oldClassSet) {
+				
+			sb.append("\t").append("public static ")
+			.append(oldClass).append(" get")
+			.append(oldClass).append("(){\r\n");
+			
+			sb.append("\t\t").append("return CfgManager.get(")
+				.append(oldClass)
+				.append(".class);\r\n");
+			sb.append("\t}").append("\r\n");
+			sb.append("\r\n");
+		}
+		
 		sb.append("\r\n");
 
 		sb.append("\t").append("public static void loadAndCheck(){")
@@ -162,15 +177,21 @@ public class JavaFactoryGenerator {
 	private static Set<String> getOldClass(Set<String> oldImportSet) {
 		Set<String> oldClassSet = new HashSet<String>();
 		for (String oldImport : oldImportSet) {
-			String oldClass = oldImport;
-			if (oldClass.contains(".")) {
-				oldClass = oldClass.substring(oldClass.lastIndexOf(".") + 1,
-						oldClass.length());
-			}
+			String oldClass = getClass(oldImport);
 			
 			oldClassSet.add(oldClass);
 		}
 
 		return oldClassSet;
+	}
+	
+	private static String getClass(String importClass){
+		String oldClass = importClass;
+		if (oldClass.contains(".")) {
+			oldClass = oldClass.substring(oldClass.lastIndexOf(".") + 1,
+					oldClass.length());
+		}
+		
+		return oldClass;
 	}
 }

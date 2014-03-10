@@ -68,11 +68,14 @@ public class ExcelMetaParser
 
             metaList.add(meta);
           }
+          else{
+        	  ExcelMeta meta = parseSheet(sheet);
+
+              metaList.add(meta);
+          }
         }
 
-        ExcelMeta meta = parseSheet(sheet);
-
-        metaList.add(meta);
+       
       }
     }
     return metaList;
@@ -121,9 +124,10 @@ public class ExcelMetaParser
       }
 
       ExcelField field = new ExcelField(desc, type, name, visible);
-      if (!field.isSkip()) {
+      fields.add(field);
+      /*if (!field.isSkip()) {
         fields.add(field);
-      }
+      }*/
     }
 
     meta.setFields((ExcelField[])fields.toArray(new ExcelField[0]));

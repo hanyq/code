@@ -18,7 +18,7 @@ public class JavaContainerClassGenerator extends AbstractJavaClassGenerator {
 		sb.append("import org.simpleframework.xml.Root;\r\n");
 
 		sb.append("\r\n");
-		sb.append("import com.kingdowin.framework.cfg.AbstractCfgContainer;\r\n");
+		sb.append("import com.qn.gameserver.core.cfg.AbstractCfgContainer;\r\n");
 		sb.append("\r\n");
 
 		sb.append("@Root(name=\"" + meta.getJavaConfigClass() + "\")\r\n");

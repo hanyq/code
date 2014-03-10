@@ -59,32 +59,39 @@ public class ExcelToXmlConvertor {
 					+ sheet.getSheetName() + ",一个sheet至少要有（desc, type）两行！！！");
 		}
 		Row descRow = sheet.getRow(0);
-		Row typeRow = sheet.getRow(1);
+		//Row typeRow = sheet.getRow(1);
 
 		if (meta.skipClientType()) {
-			typeRow = sheet.getRow(2);
+			//typeRow = sheet.getRow(2);
 			TITLE_COUNT++;
 		}
 
-		int lastCellNum = typeRow.getLastCellNum();
+		int lastCellNum = descRow.getLastCellNum();
 		for (int n = lastCellNum; n >= 0; n--) {
-			String type = ExcelReaderUtils.getValue(typeRow.getCell(n));
+			//String type = ExcelReaderUtils.getValue(typeRow.getCell(n));
 			String desc = ExcelReaderUtils.getValue(descRow.getCell(n));
 
-			if ((!StringUtils.isEmpty(type)) || (!StringUtils.isEmpty(desc)))
+			//if ((!StringUtils.isEmpty(type)) || (!StringUtils.isEmpty(desc)))
+			if (!StringUtils.isEmpty(desc)){
 				break;
+			}
 			lastCellNum--;
 		}
 
 		Set<Integer> skipCellNums = new HashSet<Integer>();
 		for (int i = 0; i <= lastCellNum; i++) {
-			String type = ExcelReaderUtils.getValue(typeRow.getCell(i));
+			/*String desc = ExcelReaderUtils.getValue(descRow.getCell(i));
+			
 			if ("skip".equalsIgnoreCase(type)) {
+				skipCellNums.add(Integer.valueOf(i));
+			}*/
+			
+			if(meta.getFields()[i].isSkip()){
 				skipCellNums.add(Integer.valueOf(i));
 			}
 		}
 
-		if (lastCellNum + 1 - skipCellNums.size() != meta.getFiledLength()) {
+		if (lastCellNum + 1 != meta.getFiledLength()) {
 			throw new ExcelFormatException("excel = " + excel + ",sheet = "
 					+ sheet.getSheetName() + ",元数据和Excel中字段长度不相等！！！");
 		}
@@ -94,43 +101,45 @@ public class ExcelToXmlConvertor {
 			if (contentRow != null) {
 				Element beanEle = DocumentHelper.createElement(meta
 						.getJavaConfigClass());
-				int realRowNum = 0;
 				boolean notEmpty = false;
 				for (int k = 0; k <= lastCellNum; k++) {
-					if (!skipCellNums.contains(Integer.valueOf(k))) {
-						ExcelField field = meta.getField(realRowNum);
-						Cell cell = contentRow.getCell(k);
-						String content = ExcelReaderUtils.getValue(cell);
+					ExcelField field = meta.getField(k);
+					if(field.isSkip()){
+						continue;
+					}
+					
+					Cell cell = contentRow.getCell(k);
+					String content = ExcelReaderUtils.getValue(cell);
 
-						content = getStringValue(content, field.isNumber());
+					content = getStringValue(content, field.isNumber());
 
-						if (field.isString()) {
-							if ((content != null) && (!content.isEmpty())) {
-								Element propEle = DocumentHelper
-										.createElement(field.getName());
-								propEle.addCDATA(content);
+					if (field.isString()) {
+						if ((content != null) && (!content.isEmpty())) {
+							Element propEle = DocumentHelper
+									.createElement(field.getName());
+							propEle.addCDATA(content);
 
-								beanEle.add(propEle);
+							beanEle.add(propEle);
 
-								notEmpty = true;
-							}
-						} else {
-							try {
+							notEmpty = true;
+						}
+					} else {
+						try {
+							if(!field.isFloat()){
 								content = String.valueOf((long) Double
 										.parseDouble(content));
-							} catch (Exception e) {
-								throw new ExcelFormatException("excel = "
-										+ excel + ",sheet = "
-										+ sheet.getSheetName()
-										+ ",无法转换成数字！！！ row = " + j
-										+ ", desc = " + field.getDesc());
 							}
-							if (!"0".endsWith(content)) {
-								notEmpty = true;
-							}
-							beanEle.addAttribute(field.getName(), content);
+						} catch (Exception e) {
+							throw new ExcelFormatException("excel = "
+									+ excel + ",sheet = "
+									+ sheet.getSheetName()
+									+ ",无法转换成数字！！！ row = " + j
+									+ ", desc = " + field.getDesc());
 						}
-						realRowNum++;
+						if (!"0".endsWith(content)) {
+							notEmpty = true;
+						}
+						beanEle.addAttribute(field.getName(), content);
 					}
 				}
 				if (notEmpty)

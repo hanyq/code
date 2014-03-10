@@ -28,7 +28,7 @@ public class JavaConfigClassGenerator extends AbstractJavaClassGenerator {
 		sb.append("\r\n\r\n");
 
 		for (ExcelField field : fields) {
-			if (field.isVisible()) {
+			if (!field.isSkip() && field.isVisible()) {
 				String type = field.isString() ? "String" : field.getType();
 				String methodName = field.getGetName();
 

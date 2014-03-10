@@ -31,26 +31,32 @@ public class JavaMapperClassGenerator extends AbstractJavaClassGenerator
     ExcelField[] fields = meta.getFields();
 
     for (ExcelField field : fields) {
-      String type = field.isString() ? "String" : field.getType();
-      if (field.isString())
-        sb.append("\t@Element(data=true, required=false)\r\n");
-      else {
-        sb.append("\t@Attribute\r\n");
-      }
-      sb.append("\t").append("private ").append(type).append(" ").append(field.getName()).append(";//").append(field.getDesc()).append("\r\n");
+    	if(field.isSkip()){
+    		continue;
+    	}
+    	String type = field.isString() ? "String" : field.getType();
+    	if (field.isString())
+    		sb.append("\t@Element(data=true, required=false)\r\n");
+    	else {
+    		sb.append("\t@Attribute\r\n");
+    	}
+    	sb.append("\t").append("private ").append(type).append(" ").append(field.getName()).append(";//").append(field.getDesc()).append("\r\n");
     }
 
     sb.append("\r\n");
     String type;
     for (ExcelField field : fields) {
-      type = field.isString() ? "String" : field.getType();
-      sb.append("\t").append("public ").append(type).append(" ").append(field.getGetName()).append("(){\r\n");
-      if (field.isString())
-        sb.append("\t\t").append("return ").append(field.getName()).append(" == null ? \"\" : ").append(field.getName()).append(" ;\r\n");
-      else {
-        sb.append("\t\t").append("return ").append(field.getName()).append(";\r\n");
-      }
-      sb.append("\t}\r\n\r\n");
+    	if(field.isSkip()){
+    		continue;
+    	}
+    	type = field.isString() ? "String" : field.getType();
+    	sb.append("\t").append("public ").append(type).append(" ").append(field.getGetName()).append("(){\r\n");
+    	if (field.isString())
+    		sb.append("\t\t").append("return ").append(field.getName()).append(" == null ? \"\" : ").append(field.getName()).append(" ;\r\n");
+    	else {
+    		sb.append("\t\t").append("return ").append(field.getName()).append(";\r\n");
+    	}
+    	sb.append("\t}\r\n\r\n");
     }
 
     sb.append("\t@Override\r\n");
@@ -59,12 +65,15 @@ public class JavaMapperClassGenerator extends AbstractJavaClassGenerator
     sb.append("\t\t").append("sb.append(\"{\");").append("\r\n");
     int index = 0;
     for (ExcelField field : fields) {
-      sb.append("\t\t").append("sb.append(\"").append(field.getName()).append(" = \").append(").append(field.getGetName()).append("())");
-      if (index != fields.length - 1) {
-        sb.append(".append(\", \")");
-      }
-      sb.append(";\r\n");
-      index++;
+    	if(field.isSkip()){
+    		continue;
+    	}
+    	sb.append("\t\t").append("sb.append(\"").append(field.getName()).append(" = \").append(").append(field.getGetName()).append("())");
+    	if (index != fields.length - 1) {
+    		sb.append(".append(\", \")");
+    	}
+    	sb.append(";\r\n");
+    	index++;
     }
 
     sb.append("\t\t").append("sb.append(\"}\");").append("\r\n");
