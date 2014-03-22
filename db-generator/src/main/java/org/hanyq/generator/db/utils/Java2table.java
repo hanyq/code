@@ -29,6 +29,7 @@ public class Java2table {
 		
 		Map<String, List<Method>> allGetfields = new LinkedHashMap<String, List<Method>>();
 		Map<String, List<Method>> allSetfields = new LinkedHashMap<String, List<Method>>();
+		List<String> l = new ArrayList<String>();
 		for(Method method : methods){
 			if(!Modifier.isPublic(method.getModifiers()) || Modifier.isStatic(method.getModifiers())){
 				continue;
@@ -39,7 +40,11 @@ public class Java2table {
 				if(method.getParameterTypes().length != 0){
 					continue;
 				}
+				
 				String fieldName = methodName.substring("get".length());
+				if(!l.contains(fieldName)){
+					l.add(fieldName);
+				}
 				
 				List<Method> methodList = allGetfields.get(fieldName);
 				if(methodList == null){
@@ -68,9 +73,11 @@ public class Java2table {
 			
 		}
 		
-		for(Map.Entry<String, List<Method>> getfield : allGetfields.entrySet()){
-			String fieldName = getfield.getKey();
-			List<Method> getMethodList = getfield.getValue();
+		/*for(Map.Entry<String, List<Method>> getfield : allGetfields.entrySet()){
+			String fieldName = getfield.getKey();*/
+		for(String fieldName : l){
+			
+			List<Method> getMethodList = allGetfields.get(fieldName);
 			List<Method> setMethodList = allSetfields.get(fieldName);
 			if(setMethodList == null){
 				continue;

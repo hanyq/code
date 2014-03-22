@@ -7,7 +7,7 @@ import java.util.Map;
 
 
 /**
- * Mapper的定�? * @author hanyongqiang
+ * Mapper的定�? * @author hanyongqiang
  *
  * @date 2013-6-17
  */
@@ -17,7 +17,10 @@ public class MapperDefinition {
 	private Map<String, String[]> updateSqlMap = new LinkedHashMap<String, String[]>();
 	private String loadMaxSqlName;
 	private String loadMaxColumn;
-	
+	private String loadByCollectionColumn;
+	private String loadByIdsSqlName;
+	private String deleteBySqlName;
+	private String deleteByColumn;
 	
 	public MapperDefinition(DbTable table){
 		this.table = table;
@@ -85,6 +88,39 @@ public class MapperDefinition {
 	public void setLoadMaxSqlName(String loadSqlName) {
 		this.loadMaxSqlName = loadSqlName;
 	}
-	
+
+	public String getLoadByCollectionColumn() {
+		return loadByCollectionColumn;
+	}
+
+	public void setLoadByCollectionColumn(String loadByCollectionColumn) {
+		this.loadByCollectionColumn = loadByCollectionColumn;
+	}
+
+	public String getLoadByIdsSqlName() {
+		return loadByIdsSqlName;
+	}
+
+	public void setLoadByIdsSqlName(String loadByIdsSqlName) {
+		this.loadByIdsSqlName = loadByIdsSqlName;
+	}
+
+	public String getDeleteBySqlName() {
+		return deleteBySqlName;
+	}
+
+	public void setDeleteBySqlName(String deleteBySqlName) {
+		this.deleteBySqlName = deleteBySqlName;
+	}
+
+	public String getDeleteByColumn() {
+		return deleteByColumn;
+	}
+
+	public void setDeleteByColumn(String deleteByColumn) {
+		this.deleteByColumn = deleteByColumn;
+	}
+
+
 	
 }

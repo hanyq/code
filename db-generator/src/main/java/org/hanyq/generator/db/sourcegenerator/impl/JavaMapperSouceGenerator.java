@@ -81,6 +81,14 @@ public class JavaMapperSouceGenerator extends AbstractSourceGenerator<MapperDefi
 		}
 		
 		
+		String loadByIdsSql = mapperDefinition.getLoadByIdsSqlName();
+		if(loadByIdsSql != null && !loadByIdsSql.isEmpty()){
+			sb.append("\r\n");
+			sb.append("\t").append("List<").append(beanName).append("> ").append(loadByIdsSql).append("(");
+			sb.append("List<").append(table.getFieldClassType(mapperDefinition.getLoadByCollectionColumn())).append("> ");
+			sb.append(mapperDefinition.getLoadByCollectionColumn()).append("s);\r\n");
+		}
+		
 		//saveXXX
 		sb.append("\r\n");
 		sb.append("\t").append("void save").append(beanName).append("(");
@@ -109,6 +117,14 @@ public class JavaMapperSouceGenerator extends AbstractSourceGenerator<MapperDefi
 		
 		sb.append(");\r\n");
 	
+		
+		String deleteBySqlName = mapperDefinition.getDeleteBySqlName();
+		if(deleteBySqlName != null && !deleteBySqlName.isEmpty()){
+			String deleteByColumn = mapperDefinition.getDeleteByColumn();
+			sb.append("\r\n");
+			sb.append("\t").append("void ").append(mapperDefinition.getDeleteBySqlName()).append("(");
+			sb.append("@Param(\"").append(deleteByColumn).append("\") ").append(table.getFieldType(deleteByColumn)).append(" ").append(deleteByColumn).append(");\r\n");
+		}
 		
 		sb.append("\r\n").append("}");
 		

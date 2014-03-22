@@ -99,6 +99,29 @@ public class SqlGenerator {
 		return sb.toString();
 	}
 	
+	public static String generateLoadByIdsSql(DbTable table, String collectionColumn){
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("SELECT \r\n\t");
+		for(DbField field : table.getFields()){
+			sb.append(field.getDbName()).append(", ");
+		}
+		sb.deleteCharAt(sb.length() - 1);
+		sb.deleteCharAt(sb.length() - 1);
+		sb.append("\r\n").append("FROM ").append("\r\n\t");
+		sb.append(table.getName());
+		
+		sb.append("\r\nWHERE ");
+		sb.append("\r\n\t").append(NameConvertor.bean2db(collectionColumn)).append(" IN ");
+		sb.append("\r\n<foreach collection=\"list\" index=\"index\" item=\"item\" open=\"(\" separator=\",\" close=\")\">");
+		sb.append("\r\n\t").append("#{item}");
+		sb.append("\r\n</foreach>");
+		
+		return sb.toString();
+	}
+	
+	
+	
 	
 	public static String generatSaveSql(DbTable table){
 		StringBuilder sb = new StringBuilder();
@@ -200,6 +223,32 @@ public class SqlGenerator {
 		int i = 0;
 		for(DbField field : table.getFields()){
 			if(!field.isPkey()){
+				continue;
+			}
+			if(i++ != 0){
+				sb.append(" AND ");
+			}
+			sb.append("\r\n\t");
+			
+			sb.append(field.getDbName()).append(" = ").append(field.getDbPlaceHolderName());
+		}
+		
+		return sb.toString();
+	}
+	
+	public static String generatDeleteBySql(DbTable table, String deleteByColumn){
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("DELETE FROM \r\n\t").append(table.getName());
+		
+		sb.append("\r\nWHERE ");
+		
+		int i = 0;
+		for(DbField field : table.getFields()){
+			if(!field.isPkey()){
+				continue;
+			}
+			if(!field.getBeanName().equals(deleteByColumn)){
 				continue;
 			}
 			if(i++ != 0){

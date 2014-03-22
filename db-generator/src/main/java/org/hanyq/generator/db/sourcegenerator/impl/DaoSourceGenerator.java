@@ -115,6 +115,20 @@ public class DaoSourceGenerator extends AbstractSourceGenerator<MapperDefinition
 			
 		}
 		
+		String loadByIdsSql = mapperDefinition.getLoadByIdsSqlName();
+		if(loadByIdsSql != null && !loadByIdsSql.isEmpty()){
+			String paramName = mapperDefinition.getLoadByCollectionColumn() + "s";
+			sb.append("\r\n");
+			sb.append("\t").append("public List<").append(beanName).append("> ").append(loadByIdsSql).append("(");
+			sb.append("List<").append(table.getFieldClassType(mapperDefinition.getLoadByCollectionColumn())).append("> ");
+			sb.append(paramName).append("){\r\n");
+			sb.append("\t\t").append("if(").append(paramName).append(" == null || ").append(paramName).append(".isEmpty()){").append("\r\n");
+			sb.append("\t\t\t").append("return emptyList();\r\n");
+			sb.append("\t\t}\r\n");
+			sb.append("\t\t").append("return mapper.").append(loadByIdsSql).append("(").append(mapperDefinition.getLoadByCollectionColumn()).append("s);\r\n");
+			sb.append("\t").append("}\r\n");
+		}
+		
 		
 		//saveXXX
 		sb.append("\r\n");
@@ -172,6 +186,18 @@ public class DaoSourceGenerator extends AbstractSourceGenerator<MapperDefinition
 		sb.deleteCharAt(sb.length() - 1);
 		sb.append(");\r\n");
 		sb.append("\t").append("} \r\n");
+		
+		
+		
+		String deleteBySqlName = mapperDefinition.getDeleteBySqlName();
+		if(deleteBySqlName != null && !deleteBySqlName.isEmpty()){
+			String deleteByColumn = mapperDefinition.getDeleteByColumn();
+			sb.append("\r\n");
+			sb.append("\t").append("public void ").append(mapperDefinition.getDeleteBySqlName()).append("(");
+			sb.append(table.getFieldType(deleteByColumn)).append(" ").append(deleteByColumn).append("){\r\n");
+			sb.append("\t\t").append("mapper.").append(mapperDefinition.getDeleteBySqlName()).append("(").append(deleteByColumn).append(");\r\n");
+			sb.append("\t}\r\n");
+		}
 		
 		
 		sb.append("\r\n").append("}");

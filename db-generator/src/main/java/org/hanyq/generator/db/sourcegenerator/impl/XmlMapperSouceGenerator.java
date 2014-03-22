@@ -72,6 +72,15 @@ public class XmlMapperSouceGenerator extends AbstractSourceGenerator<MapperDefin
 			addCDATA(theLoadEle, SqlGenerator.generateLoadByWhereSql(table, loadEntry.getValue()));
 		}
 		
+		String loadByIdsSql = mapperDefinition.getLoadByIdsSqlName();
+		if(loadByIdsSql != null && !loadByIdsSql.isEmpty()){
+			Element theLoadEle = mapperEle.addElement("select");
+			theLoadEle.addAttribute("id", loadByIdsSql);
+			theLoadEle.addAttribute("resultMap", resultMap);
+			
+			theLoadEle.addText(SqlGenerator.generateLoadByIdsSql(table, mapperDefinition.getLoadByCollectionColumn()));
+		}
+		
 		
 		//save sql
 		Element saveEle = mapperEle.addElement("insert");
@@ -98,10 +107,20 @@ public class XmlMapperSouceGenerator extends AbstractSourceGenerator<MapperDefin
 		//deleteEle.addAttribute("parameterMap", resultMap);
 		addCDATA(deleteEle, SqlGenerator.generatDeleteSql(table));
 	
+		//delete By XXX
+		String deleteBySqlName = mapperDefinition.getDeleteBySqlName();
+		if(deleteBySqlName != null && !deleteBySqlName.isEmpty()){
+			Element deleteByEle = mapperEle.addElement("delete");
+			deleteByEle.addAttribute("id", deleteBySqlName);
+			
+			addCDATA(deleteByEle, SqlGenerator.generatDeleteBySql(table, mapperDefinition.getDeleteByColumn()));
+		}
+		
 		
 		OutputFormat format = OutputFormat.createPrettyPrint();
 		StringWriter sw = new StringWriter();
 		XMLWriter writer = new XMLWriter(sw, format);
+		writer.setEscapeText(false);
 		try {
 			writer.write(mapperEle);
 		} catch (IOException e) {

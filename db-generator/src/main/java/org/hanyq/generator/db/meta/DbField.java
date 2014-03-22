@@ -32,7 +32,8 @@ public class DbField {
 		java2DbTypeMap.put(int.class, new DbFieldMeta("int(11)", "'0'"));
 		java2DbTypeMap.put(long.class, new DbFieldMeta("bigint(20)", "'0'"));
 		java2DbTypeMap.put(String.class, new DbFieldMeta("varchar(50)", "''"));
-		
+		java2DbTypeMap.put(float.class, new DbFieldMeta("float(11)", "'0'"));
+		java2DbTypeMap.put(byte[].class, new DbFieldMeta("blob", "''"));
 	}
 	
 	public DbField(boolean isPkey, String name, Class<?> type) {

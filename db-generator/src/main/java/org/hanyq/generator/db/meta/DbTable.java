@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hanyq.generator.db.config.Configs;
 import org.hanyq.generator.db.utils.NameConvertor;
+import org.hanyq.generator.db.utils.Utils;
 
 
 public class DbTable {
@@ -56,6 +57,17 @@ public class DbTable {
 		for(DbField field : fields){
 			if(field.getBeanName().equals(filedName)){
 				return field.getType().getSimpleName();
+			}
+		}
+		
+		throw new RuntimeException("field not found. fieldName = " + filedName + ", class = " + clazz.getName());
+	}
+	
+	public String getFieldClassType(String filedName){
+		for(DbField field : fields){
+			if(field.getBeanName().equals(filedName)){
+				
+				return Utils.getWrapperType(field.getType());
 			}
 		}
 		
