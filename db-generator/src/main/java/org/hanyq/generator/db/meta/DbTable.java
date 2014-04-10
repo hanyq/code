@@ -53,6 +53,16 @@ public class DbTable {
 		return this.nonPkeys;
 	}
 	
+	public DbField getDbField(String filedName){
+		for(DbField field : fields){
+			if(field.getBeanName().equals(filedName)){
+				return field;
+			}
+		}
+		
+		throw new RuntimeException("field not found. fieldName = " + filedName + ", class = " + clazz.getName());
+	}
+	
 	public String getFieldType(String filedName){
 		for(DbField field : fields){
 			if(field.getBeanName().equals(filedName)){

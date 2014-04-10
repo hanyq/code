@@ -12,6 +12,7 @@ public class DbField {
 	private boolean isPkey;
 	private String name;
 	private Class<?> type;
+	private int length;
 	
 	public static class DbFieldMeta{
 		String dbType;
@@ -54,7 +55,12 @@ public class DbField {
 	}
 	
 	public String getDbType(){
-		return getTypeMeta().dbType; 
+		if(type == String.class && length != 0){
+			return "varchar(" + length + ")";
+		}
+		else{
+			return getTypeMeta().dbType; 
+		}
 	}
 	
 	public String getDbDefaultValue(){
@@ -93,6 +99,14 @@ public class DbField {
 
 	public void setPkey(boolean isPkey) {
 		this.isPkey = isPkey;
+	}
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
 	}
 	
 	
