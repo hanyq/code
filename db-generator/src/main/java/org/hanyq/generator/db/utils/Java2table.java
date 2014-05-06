@@ -5,12 +5,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.hanyq.generator.db.meta.DbField;
 import org.hanyq.generator.db.meta.DbTable;
@@ -25,11 +22,16 @@ public class Java2table {
 		String table = NameConvertor.bean2db(clazz.getSimpleName());
 		dbTable.setName(table);
 		
-		Method[] methods = clazz.getDeclaredMethods();
+		List<String> l = new ArrayList<String>();
+		for(Field f : clazz.getDeclaredFields()){
+			l.add(f.getName());
+		}
+		
+		Method[] methods = clazz.getMethods();
 		
 		Map<String, List<Method>> allGetfields = new LinkedHashMap<String, List<Method>>();
 		Map<String, List<Method>> allSetfields = new LinkedHashMap<String, List<Method>>();
-		List<String> l = new ArrayList<String>();
+		
 		for(Method method : methods){
 			if(!Modifier.isPublic(method.getModifiers()) || Modifier.isStatic(method.getModifiers())){
 				continue;
@@ -42,6 +44,7 @@ public class Java2table {
 				}
 				
 				String fieldName = methodName.substring("get".length());
+				fieldName = Character.toLowerCase(fieldName.charAt(0)) + fieldName.substring(1);
 				if(!l.contains(fieldName)){
 					l.add(fieldName);
 				}
@@ -63,6 +66,7 @@ public class Java2table {
 				}
 				
 				String fieldName = methodName.substring("set".length());
+				fieldName = Character.toLowerCase(fieldName.charAt(0)) + fieldName.substring(1);
 				List<Method> methodList = allSetfields.get(fieldName);
 				if(methodList == null){
 					methodList = new ArrayList<Method>();
@@ -80,6 +84,9 @@ public class Java2table {
 			List<Method> getMethodList = allGetfields.get(fieldName);
 			List<Method> setMethodList = allSetfields.get(fieldName);
 			if(setMethodList == null){
+				continue;
+			}
+			if(getMethodList == null){
 				continue;
 			}
 			Method getMethod = null;

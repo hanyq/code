@@ -17,7 +17,7 @@ public class TableSourceGenerator extends AbstractSourceGenerator<MapperDefiniti
 	
 	@Override
 	protected String getSouceName(MapperDefinition mapperDefinition) {
-		return mapperDefinition.getTable().getBeanName() + ".sql";
+		return mapperDefinition.getTable().getDbName() + ".sql";
 	}
 
 	@Override

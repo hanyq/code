@@ -15,6 +15,7 @@ import org.hanyq.generator.db.sourcegenerator.impl.TableSourceGenerator;
 import org.hanyq.generator.db.sourcegenerator.impl.XmlMapperSouceGenerator;
 import org.hanyq.generator.db.utils.Java2table;
 
+import com.qn.landgrabber.model.army.Army;
 import com.qn.landgrabber.model.building.Building;
 import com.qn.landgrabber.model.building.folk.Folk;
 import com.qn.landgrabber.model.building.market.MarketExchange;
@@ -23,14 +24,18 @@ import com.qn.landgrabber.model.farm.FarmMessage;
 import com.qn.landgrabber.model.farm.Land;
 import com.qn.landgrabber.model.farm.UserLands;
 import com.qn.landgrabber.model.general.General;
+import com.qn.landgrabber.model.general.GeneralSoul;
 import com.qn.landgrabber.model.general.drill.DrillGround;
 import com.qn.landgrabber.model.gobattle.BattleReportData;
 import com.qn.landgrabber.model.gobattle.GoBattle;
-import com.qn.landgrabber.model.gobattle.GoBattleCell;
+import com.qn.landgrabber.model.gobattle.GoBattleProgress;
+import com.qn.landgrabber.model.gobattle.WarDeclaration;
 import com.qn.landgrabber.model.item.Equipment;
 import com.qn.landgrabber.model.item.Item;
 import com.qn.landgrabber.model.legion.Legion;
+import com.qn.landgrabber.model.legion.LegionApply;
 import com.qn.landgrabber.model.legion.LegionCreation;
+import com.qn.landgrabber.model.legion.LegionInvite;
 import com.qn.landgrabber.model.legion.LegionMember;
 import com.qn.landgrabber.model.limit.Limitation;
 import com.qn.landgrabber.model.mail.Mail;
@@ -45,6 +50,7 @@ import com.qn.landgrabber.model.technology.TechnologyLevel;
 import com.qn.landgrabber.model.timer.CdTimer;
 import com.qn.landgrabber.model.user.User;
 import com.qn.landgrabber.model.user.UserExt;
+import com.qn.landgrabber.module.rank.impl.UserLevelRank;
 
 
 public class LandGrabber_App {
@@ -90,9 +96,14 @@ public class LandGrabber_App {
 		defs.add(getEquipmentDef());
 		defs.add(getFolkDef());
 		defs.add(getRelationDef());
+		
 		defs.add(getGeneralDef());
-		defs.add(getGoBattleCellDef());
+		defs.add(getGeneralSoulDef());
+		
+		defs.add(getArmyDef());
 		defs.add(getGoBattleDef());
+		defs.add(getGoBattleProgressDef());
+		defs.add(getWarDeclarationDef());
 		defs.add(getBattleReportDataDef());
 		defs.add(getDrillGroundDef());
 		defs.add(getMarketExchangeDef());
@@ -108,6 +119,11 @@ public class LandGrabber_App {
 		defs.add(getLegionCreationDef());
 		defs.add(getLegionDef());
 		defs.add(getLegionMemberDef());
+		defs.add(getLegionApplyDef());
+		defs.add(getLegionInviteDef());
+		
+		defs.add(getUserLevelRankDef());
+		
 		
 		
 		
@@ -127,13 +143,18 @@ public class LandGrabber_App {
 	
 	private static MapperDefinition getUserDef(){
 		DbTable table = Java2table.java2table(User.class, "userId");
+		table.getDbField("signature").setLength(100);
+		table.getDbField("infoBrief").setLength(500);
 		MapperDefinition def = new MapperDefinition(table);
 		
 		def.addLoadSql("loadUsersByLevel", "level");
-		def.addUpdateSql("updateUserLevel", "level", "exp");
+		def.addUpdateSql("updateUserLevel", "level", "exp", "battlePower", "infoBrief");
 		def.addUpdateSql("updateUserCamp", "camp", "state", "x", "y");
 		def.addUpdateSql("updateUserMoney", "coin", "gold", "coupon", "grain", "honor", "energy", "armedForces", "lastEnergyRestoreTime");
-		def.addUpdateSql("updateUserAward", "level", "exp", "coin", "gold", "coupon", "grain", "honor", "energy", "armedForces");
+		def.addUpdateSql("updateUserAward", "level", "exp", "coin", "gold", "coupon", "grain", "honor", "energy", "armedForces", "battlePower", "infoBrief");
+		def.addUpdateSql("updateUserInfoBrief", "battlePower", "infoBrief");
+		
+		def.addUpdateSql("updateUserSignature", "signature");
 		
 		def.setLoadMaxSqlName("loadMaxUserId");
 		def.setLoadMaxColumn("userId");
@@ -148,6 +169,10 @@ public class LandGrabber_App {
 		def.addUpdateSql("updateTotalTopup", "totalTopup");
 		def.addUpdateSql("updateAddLeadTroops", "addLeadTroops");
 		def.addUpdateSql("updateMining", "mineType", "outputInitIron");
+		def.addUpdateSql("updateGeneralSoulCfgIds", "generalSoulCfgIds");
+		
+		def.addUpdateSql("updateLoginCount", "totalLogin", "continuousLogin");
+		
 		
 		return def;
 	}
@@ -303,11 +328,29 @@ public class LandGrabber_App {
 		return def;
 	}
 	
-	private static MapperDefinition getGoBattleCellDef(){
-		DbTable table = Java2table.java2table(GoBattleCell.class, "userId", "position");
-		MapperDefinition def = new MapperDefinition(table);
-		def.addLoadSql("loadGoBattleCellsByUser", "userId");
+	private static MapperDefinition getGeneralSoulDef(){
+		DbTable table = Java2table.java2table(GeneralSoul.class, "userId", "soulId");
 		
+		MapperDefinition def = new MapperDefinition(table);
+		
+		def.addLoadSql("loadGeneralSoulsByUser", "userId");
+		
+		def.addUpdateSql("updateGeneralSoulExp", "level", "exp");
+		
+		return def;
+	}
+	
+	private static MapperDefinition getArmyDef(){
+		DbTable table = Java2table.java2table(Army.class, "userId", "armyType");
+		MapperDefinition def = new MapperDefinition(table);
+		def.addLoadSql("loadArmysByUser", "userId");
+		
+		def.addUpdateSql("updateArmyInfo", "generalId", "position", "leadTroops");
+		
+		def.addUpdateSql("updateArmyEquipments", "weaponItemId", "helmetItemId", "breastplateItemId", "shoesItemId", "necklaceItemId");
+		
+		def.addUpdateSql("updateSoulFormation", "soulFormationP0", "soulFormationP1", "soulFormationP2", "soulFormationP3", "soulFormationP4");
+	    
 		return def;
 	}
 	
@@ -316,6 +359,24 @@ public class LandGrabber_App {
 		MapperDefinition def = new MapperDefinition(table);
 		
 		def.addLoadSql("loadGoBattlesOfOnGoing", "onGoing");
+		
+		return def;
+	}
+	
+	private static MapperDefinition getGoBattleProgressDef(){
+		DbTable table = Java2table.java2table(GoBattleProgress.class, "userId");
+		MapperDefinition def = new MapperDefinition(table);
+		
+		def.addLoadSql("loadGoBattleProcessesOfOnGoing", "onGoing");
+		
+		return def;
+	}
+	
+	private static MapperDefinition getWarDeclarationDef(){
+		DbTable table = Java2table.java2table(WarDeclaration.class, "userId");
+		MapperDefinition def = new MapperDefinition(table);
+		
+		def.addLoadSql("loadWarDeclarationsByUser", "userId");
 		
 		return def;
 	}
@@ -393,6 +454,7 @@ public class LandGrabber_App {
 	
 	private static MapperDefinition getFarmMessageDef(){
 		DbTable table = Java2table.java2table(FarmMessage.class, "userId", "messageId");
+		table.getDbField("message").setLength(500);
 		MapperDefinition def = new MapperDefinition(table);
 		
 		def.addLoadSql("loadFarmMessagesByUser", "userId");
@@ -430,6 +492,40 @@ public class LandGrabber_App {
 	
 	private static MapperDefinition getLegionMemberDef(){
 		DbTable table = Java2table.java2table(LegionMember.class, "userId");
+		MapperDefinition def = new MapperDefinition(table);
+		
+		return def;
+	}
+	
+	private static MapperDefinition getLegionApplyDef(){
+		DbTable table = Java2table.java2table(LegionApply.class, "userId", "legionId");
+		MapperDefinition def = new MapperDefinition(table);
+		
+		def.setDeleteBySqlName("deleteLegionApplysByUserId");
+		def.setDeleteByColumn("userId");
+		
+		/*def.setDeleteBySqlName("deleteLeginApplysByLegionId");
+		def.setDeleteByColumn("legionId");*/
+		
+		return def;
+	}
+	
+	private static MapperDefinition getLegionInviteDef(){
+		DbTable table = Java2table.java2table(LegionInvite.class, "receiveUserId", "legionId");
+		MapperDefinition def = new MapperDefinition(table);
+		
+		def.setDeleteBySqlName("deleteLegionInvitesByUserId");
+		def.setDeleteByColumn("receiveUserId");
+		
+		/*def.setDeleteBySqlName("deleteLeginApplysByLegionId");
+		def.setDeleteByColumn("legionId");*/
+		
+		return def;
+	}
+	
+	
+	private static MapperDefinition getUserLevelRankDef(){
+		DbTable table = Java2table.java2table(UserLevelRank.class, "ranking");
 		MapperDefinition def = new MapperDefinition(table);
 		
 		return def;
