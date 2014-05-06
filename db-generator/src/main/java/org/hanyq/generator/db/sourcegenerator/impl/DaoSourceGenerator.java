@@ -199,6 +199,13 @@ public class DaoSourceGenerator extends AbstractSourceGenerator<MapperDefinition
 			sb.append("\t}\r\n");
 		}
 		
+		if(mapperDefinition.isDeleteAll()){
+			sb.append("\r\n");
+			sb.append("\t").append("public void deleteAll").append("(){\r\n");
+			sb.append("\t\t").append("mapper.deleteAll").append(beanName).append("();\r\n");
+			sb.append("\t}\r\n");
+		}
+		
 		
 		sb.append("\r\n").append("}");
 		

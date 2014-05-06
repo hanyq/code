@@ -126,6 +126,11 @@ public class JavaMapperSouceGenerator extends AbstractSourceGenerator<MapperDefi
 			sb.append("@Param(\"").append(deleteByColumn).append("\") ").append(table.getFieldType(deleteByColumn)).append(" ").append(deleteByColumn).append(");\r\n");
 		}
 		
+		if(mapperDefinition.isDeleteAll()){
+			sb.append("\r\n");
+			sb.append("\t").append("void deleteAll").append(beanName).append("();\r\n");
+		}
+		
 		sb.append("\r\n").append("}");
 		
 		

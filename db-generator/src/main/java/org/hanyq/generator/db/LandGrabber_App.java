@@ -528,6 +528,8 @@ public class LandGrabber_App {
 		DbTable table = Java2table.java2table(UserLevelRank.class, "ranking");
 		MapperDefinition def = new MapperDefinition(table);
 		
+		def.setDeleteAll(true);
+		
 		return def;
 	}
 }

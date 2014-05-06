@@ -21,6 +21,7 @@ public class MapperDefinition {
 	private String loadByIdsSqlName;
 	private String deleteBySqlName;
 	private String deleteByColumn;
+	private boolean deleteAll;
 	
 	public MapperDefinition(DbTable table){
 		this.table = table;
@@ -121,6 +122,12 @@ public class MapperDefinition {
 		this.deleteByColumn = deleteByColumn;
 	}
 
+	public boolean isDeleteAll() {
+		return deleteAll;
+	}
 
-	
+	public void setDeleteAll(boolean deleteAll) {
+		this.deleteAll = deleteAll;
+	}
+
 }

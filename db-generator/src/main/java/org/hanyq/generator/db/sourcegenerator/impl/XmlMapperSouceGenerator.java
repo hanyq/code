@@ -116,6 +116,12 @@ public class XmlMapperSouceGenerator extends AbstractSourceGenerator<MapperDefin
 			addCDATA(deleteByEle, SqlGenerator.generatDeleteBySql(table, mapperDefinition.getDeleteByColumn()));
 		}
 		
+		if(mapperDefinition.isDeleteAll()){
+			Element deleteByEle = mapperEle.addElement("delete");
+			deleteByEle.addAttribute("id", "deleteAll" + beanName);
+			
+			addCDATA(deleteByEle, SqlGenerator.generatDeleteAll(table));
+		}
 		
 		OutputFormat format = OutputFormat.createPrettyPrint();
 		StringWriter sw = new StringWriter();

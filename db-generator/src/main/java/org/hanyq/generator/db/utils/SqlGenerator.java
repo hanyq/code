@@ -262,6 +262,13 @@ public class SqlGenerator {
 		return sb.toString();
 	}
 	
+	public static String generatDeleteAll(DbTable table){
+		StringBuilder sb = new StringBuilder();
+		sb.append("DELETE FROM \r\n\t").append(table.getName());
+		
+		return sb.toString();
+	}
+	
 	public static void main(String[] args){
 		DbTable table = Java2table.java2table(User.class, "userId");
 		
