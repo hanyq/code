@@ -37,6 +37,7 @@ import com.qn.landgrabber.model.legion.LegionApply;
 import com.qn.landgrabber.model.legion.LegionCreation;
 import com.qn.landgrabber.model.legion.LegionInvite;
 import com.qn.landgrabber.model.legion.LegionMember;
+import com.qn.landgrabber.model.legion.building.LegionBuilding;
 import com.qn.landgrabber.model.limit.Limitation;
 import com.qn.landgrabber.model.mail.Mail;
 import com.qn.landgrabber.model.mail.MailAttachment;
@@ -121,6 +122,7 @@ public class LandGrabber_App {
 		defs.add(getLegionMemberDef());
 		defs.add(getLegionApplyDef());
 		defs.add(getLegionInviteDef());
+		defs.add(getLegionBuilidingDef());
 		
 		defs.add(getUserLevelRankDef());
 		
@@ -137,7 +139,8 @@ public class LandGrabber_App {
 			generator.generateSource(defs);
 		}
 		//containerGenerator.generateSource(defs);
-		
+	
+		System.err.println("Success!!!");
 	}
 	
 	
@@ -164,10 +167,10 @@ public class LandGrabber_App {
 	
 	private static MapperDefinition getUserExtDef(){
 		DbTable table = Java2table.java2table(UserExt.class, "userId");
+		table.getDbField("generalSoulCfgIds").setLength(500);
 		MapperDefinition def = new MapperDefinition(table);
 		
 		def.addUpdateSql("updateTotalTopup", "totalTopup");
-		def.addUpdateSql("updateAddLeadTroops", "addLeadTroops");
 		def.addUpdateSql("updateMining", "mineType", "outputInitIron");
 		def.addUpdateSql("updateGeneralSoulCfgIds", "generalSoulCfgIds");
 		
@@ -519,6 +522,13 @@ public class LandGrabber_App {
 		
 		/*def.setDeleteBySqlName("deleteLeginApplysByLegionId");
 		def.setDeleteByColumn("legionId");*/
+		
+		return def;
+	}
+	
+	private static MapperDefinition getLegionBuilidingDef(){
+		DbTable table = Java2table.java2table(LegionBuilding.class, "legionId", "legionBuildingId");
+		MapperDefinition def = new MapperDefinition(table);
 		
 		return def;
 	}

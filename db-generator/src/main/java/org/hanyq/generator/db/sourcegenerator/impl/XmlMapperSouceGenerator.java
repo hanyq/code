@@ -107,7 +107,7 @@ public class XmlMapperSouceGenerator extends AbstractSourceGenerator<MapperDefin
 		//deleteEle.addAttribute("parameterMap", resultMap);
 		addCDATA(deleteEle, SqlGenerator.generatDeleteSql(table));
 	
-		//delete By XXX
+		//deleteByXXX
 		String deleteBySqlName = mapperDefinition.getDeleteBySqlName();
 		if(deleteBySqlName != null && !deleteBySqlName.isEmpty()){
 			Element deleteByEle = mapperEle.addElement("delete");
@@ -141,8 +141,6 @@ public class XmlMapperSouceGenerator extends AbstractSourceGenerator<MapperDefin
 		sb.append("\r\n\"http://mybatis.org/dtd/mybatis-3-mapper.dtd\"> ");
 		
 		sb.append("\r\n\r\n").append(sw.toString());
-		
-		System.out.println(sb.toString());
 		
 		return sb.toString();
 	}
