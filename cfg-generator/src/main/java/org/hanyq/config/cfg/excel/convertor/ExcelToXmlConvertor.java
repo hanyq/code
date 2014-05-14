@@ -1,4 +1,4 @@
-package com.kingdowin.config.cfg.excel.convertor;
+package org.hanyq.config.cfg.excel.convertor;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -17,11 +17,10 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-
-import com.kingdowin.config.cfg.excel.ExcelReaderUtils;
-import com.kingdowin.config.cfg.excel.meta.ExcelField;
-import com.kingdowin.config.cfg.excel.meta.ExcelFormatException;
-import com.kingdowin.config.cfg.excel.meta.ExcelMeta;
+import org.hanyq.config.cfg.excel.ExcelReaderUtils;
+import org.hanyq.config.cfg.excel.meta.ExcelField;
+import org.hanyq.config.cfg.excel.meta.ExcelFormatException;
+import org.hanyq.config.cfg.excel.meta.ExcelMeta;
 
 public class ExcelToXmlConvertor {
 	private String excelPath;

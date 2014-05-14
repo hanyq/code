@@ -1,6 +1,6 @@
-package com.kingdowin.config.cfg.excel.convertor.classgenerator;
+package org.hanyq.config.cfg.excel.convertor.classgenerator;
 
-import com.kingdowin.config.cfg.excel.meta.ExcelMeta;
+import org.hanyq.config.cfg.excel.meta.ExcelMeta;
 
 public class JavaContainerClassGenerator extends AbstractJavaClassGenerator {
 	protected String makeJavaContent(ExcelMeta meta) {

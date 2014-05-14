@@ -1,4 +1,4 @@
-package com.kingdowin.config.cfg;
+package org.hanyq.config.cfg;
 
 import java.io.File;
 import java.io.FileNotFoundException;

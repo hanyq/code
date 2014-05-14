@@ -1,4 +1,4 @@
-package com.kingdowin.config.cfg.excel;
+package org.hanyq.config.cfg.excel;
 
 public interface Constants {
 	  String SKIP = "skip";

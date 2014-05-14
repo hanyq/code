@@ -1,4 +1,4 @@
-package com.kingdowin.config.cfg;
+package org.hanyq.config.cfg;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.dom4j.Document;
 
-import com.kingdowin.config.cfg.excel.convertor.ExcelToJavaConvertor;
-import com.kingdowin.config.cfg.excel.convertor.ExcelToXmlConvertor;
-import com.kingdowin.config.cfg.excel.convertor.classgenerator.JavaFactoryGenerator;
-import com.kingdowin.config.cfg.excel.meta.ExcelMeta;
-import com.kingdowin.config.cfg.excel.meta.ExcelMetaParser;
+import org.dom4j.Document;
+import org.hanyq.config.cfg.excel.convertor.ExcelToJavaConvertor;
+import org.hanyq.config.cfg.excel.convertor.ExcelToXmlConvertor;
+import org.hanyq.config.cfg.excel.convertor.classgenerator.JavaFactoryGenerator;
+import org.hanyq.config.cfg.excel.meta.ExcelMeta;
+import org.hanyq.config.cfg.excel.meta.ExcelMetaParser;
 
 public class App {
 	public static void main(String[] args) throws FileNotFoundException,

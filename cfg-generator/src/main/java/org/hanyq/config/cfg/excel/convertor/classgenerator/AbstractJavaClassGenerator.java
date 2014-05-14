@@ -1,10 +1,10 @@
-package com.kingdowin.config.cfg.excel.convertor.classgenerator;
+package org.hanyq.config.cfg.excel.convertor.classgenerator;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.kingdowin.config.cfg.excel.meta.ExcelMeta;
+import org.hanyq.config.cfg.excel.meta.ExcelMeta;
 
 public abstract class AbstractJavaClassGenerator
   implements IJavaClassGenerator

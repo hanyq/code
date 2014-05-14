@@ -1,14 +1,14 @@
-package com.kingdowin.config.cfg.excel.convertor;
+package org.hanyq.config.cfg.excel.convertor;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.kingdowin.config.cfg.excel.convertor.classgenerator.IJavaClassGenerator;
-import com.kingdowin.config.cfg.excel.convertor.classgenerator.JavaConfigClassGenerator;
-import com.kingdowin.config.cfg.excel.convertor.classgenerator.JavaContainerClassGenerator;
-import com.kingdowin.config.cfg.excel.convertor.classgenerator.JavaMapperClassGenerator;
-import com.kingdowin.config.cfg.excel.meta.ExcelMeta;
+import org.hanyq.config.cfg.excel.convertor.classgenerator.IJavaClassGenerator;
+import org.hanyq.config.cfg.excel.convertor.classgenerator.JavaConfigClassGenerator;
+import org.hanyq.config.cfg.excel.convertor.classgenerator.JavaContainerClassGenerator;
+import org.hanyq.config.cfg.excel.convertor.classgenerator.JavaMapperClassGenerator;
+import org.hanyq.config.cfg.excel.meta.ExcelMeta;
 
 public class ExcelToJavaConvertor {
 	private String javaPath;
