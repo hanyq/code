@@ -189,14 +189,16 @@ public class DaoSourceGenerator extends AbstractSourceGenerator<MapperDefinition
 		
 		
 		
-		String deleteBySqlName = mapperDefinition.getDeleteBySqlName();
-		if(deleteBySqlName != null && !deleteBySqlName.isEmpty()){
-			String deleteByColumn = mapperDefinition.getDeleteByColumn();
-			sb.append("\r\n");
-			sb.append("\t").append("public void ").append(mapperDefinition.getDeleteBySqlName()).append("(");
-			sb.append(table.getFieldType(deleteByColumn)).append(" ").append(deleteByColumn).append("){\r\n");
-			sb.append("\t\t").append("mapper.").append(mapperDefinition.getDeleteBySqlName()).append("(").append(deleteByColumn).append(");\r\n");
-			sb.append("\t}\r\n");
+		for(Map.Entry<String, String> entry : mapperDefinition.getDeleteMap().entrySet()){
+			String deleteBySqlName = entry.getKey();
+			if(deleteBySqlName != null && !deleteBySqlName.isEmpty()){
+				String deleteByColumn = entry.getValue();
+				sb.append("\r\n");
+				sb.append("\t").append("public void ").append(deleteBySqlName).append("(");
+				sb.append(table.getFieldType(deleteByColumn)).append(" ").append(deleteByColumn).append("){\r\n");
+				sb.append("\t\t").append("mapper.").append(deleteBySqlName).append("(").append(deleteByColumn).append(");\r\n");
+				sb.append("\t}\r\n");
+			}
 		}
 		
 		if(mapperDefinition.isDeleteAll()){

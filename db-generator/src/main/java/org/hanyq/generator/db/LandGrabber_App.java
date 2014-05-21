@@ -21,7 +21,6 @@ import com.qn.landgrabber.model.building.folk.Folk;
 import com.qn.landgrabber.model.building.market.MarketExchange;
 import com.qn.landgrabber.model.farm.Beast;
 import com.qn.landgrabber.model.farm.FarmMessage;
-import com.qn.landgrabber.model.farm.Land;
 import com.qn.landgrabber.model.farm.UserLands;
 import com.qn.landgrabber.model.general.General;
 import com.qn.landgrabber.model.general.GeneralSoul;
@@ -113,7 +112,6 @@ public class LandGrabber_App {
 		defs.add(getMailAttachmentDef());
 		
 		defs.add(getBeastDef());
-		defs.add(getLandDef());
 		defs.add(getUserLandsDef());
 		defs.add(getFarmMessageDef());
 		
@@ -433,17 +431,7 @@ public class LandGrabber_App {
 		def.setLoadByIdsSqlName("loadMailAttachmentsByMailIds");
 		def.setLoadByCollectionColumn("mailId");
 		
-		def.setDeleteBySqlName("deleteMailAttachmentsByMailId");
-		def.setDeleteByColumn("mailId");
-		
-		return def;
-	}
-	
-	private static MapperDefinition getLandDef(){
-		DbTable table = Java2table.java2table(Land.class, "userId", "landId");
-		MapperDefinition def = new MapperDefinition(table);
-		
-		def.addLoadSql("loadLandsByUser", "userId");
+		def.addDeleteSql("deleteMailAttachmentsByMailId", "mailId");
 		
 		return def;
 	}
@@ -504,11 +492,8 @@ public class LandGrabber_App {
 		DbTable table = Java2table.java2table(LegionApply.class, "userId", "legionId");
 		MapperDefinition def = new MapperDefinition(table);
 		
-		def.setDeleteBySqlName("deleteLegionApplysByUserId");
-		def.setDeleteByColumn("userId");
-		
-		/*def.setDeleteBySqlName("deleteLeginApplysByLegionId");
-		def.setDeleteByColumn("legionId");*/
+		def.addDeleteSql("deleteLegionApplysByUserId", "userId");
+		def.addDeleteSql("deleteLeginApplysByLegionId", "legionId");
 		
 		return def;
 	}
@@ -517,11 +502,8 @@ public class LandGrabber_App {
 		DbTable table = Java2table.java2table(LegionInvite.class, "receiveUserId", "legionId");
 		MapperDefinition def = new MapperDefinition(table);
 		
-		def.setDeleteBySqlName("deleteLegionInvitesByUserId");
-		def.setDeleteByColumn("receiveUserId");
-		
-		/*def.setDeleteBySqlName("deleteLeginApplysByLegionId");
-		def.setDeleteByColumn("legionId");*/
+		def.addDeleteSql("deleteLegionInvitesByUserId", "receiveUserId");
+		def.addDeleteSql("deleteLeginInvitesByLegionId", "legionId");
 		
 		return def;
 	}

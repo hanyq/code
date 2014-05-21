@@ -108,12 +108,15 @@ public class XmlMapperSouceGenerator extends AbstractSourceGenerator<MapperDefin
 		addCDATA(deleteEle, SqlGenerator.generatDeleteSql(table));
 	
 		//deleteByXXX
-		String deleteBySqlName = mapperDefinition.getDeleteBySqlName();
-		if(deleteBySqlName != null && !deleteBySqlName.isEmpty()){
-			Element deleteByEle = mapperEle.addElement("delete");
-			deleteByEle.addAttribute("id", deleteBySqlName);
-			
-			addCDATA(deleteByEle, SqlGenerator.generatDeleteBySql(table, mapperDefinition.getDeleteByColumn()));
+		for(Map.Entry<String, String> entry : mapperDefinition.getDeleteMap().entrySet()){
+			String deleteBySqlName = entry.getKey();
+			if(deleteBySqlName != null && !deleteBySqlName.isEmpty()){
+				String deleteByColumn = entry.getValue();
+				Element deleteByEle = mapperEle.addElement("delete");
+				deleteByEle.addAttribute("id", deleteBySqlName);
+				
+				addCDATA(deleteByEle, SqlGenerator.generatDeleteBySql(table, deleteByColumn));
+			}
 		}
 		
 		if(mapperDefinition.isDeleteAll()){

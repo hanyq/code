@@ -118,12 +118,14 @@ public class JavaMapperSouceGenerator extends AbstractSourceGenerator<MapperDefi
 		sb.append(");\r\n");
 	
 		
-		String deleteBySqlName = mapperDefinition.getDeleteBySqlName();
-		if(deleteBySqlName != null && !deleteBySqlName.isEmpty()){
-			String deleteByColumn = mapperDefinition.getDeleteByColumn();
-			sb.append("\r\n");
-			sb.append("\t").append("void ").append(mapperDefinition.getDeleteBySqlName()).append("(");
-			sb.append("@Param(\"").append(deleteByColumn).append("\") ").append(table.getFieldType(deleteByColumn)).append(" ").append(deleteByColumn).append(");\r\n");
+		for(Map.Entry<String, String> entry : mapperDefinition.getDeleteMap().entrySet()){
+			String deleteBySqlName = entry.getKey();
+			if(deleteBySqlName != null && !deleteBySqlName.isEmpty()){
+				String deleteByColumn = entry.getValue();
+				sb.append("\r\n");
+				sb.append("\t").append("void ").append(deleteBySqlName).append("(");
+				sb.append("@Param(\"").append(deleteByColumn).append("\") ").append(table.getFieldType(deleteByColumn)).append(" ").append(deleteByColumn).append(");\r\n");
+			}
 		}
 		
 		if(mapperDefinition.isDeleteAll()){

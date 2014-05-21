@@ -15,12 +15,11 @@ public class MapperDefinition {
 	private DbTable table;
 	private Map<String, String[]> loadSqlMap = new LinkedHashMap<String, String[]>();
 	private Map<String, String[]> updateSqlMap = new LinkedHashMap<String, String[]>();
+	private Map<String, String> deleteMap = new LinkedHashMap<String, String>();
 	private String loadMaxSqlName;
 	private String loadMaxColumn;
 	private String loadByCollectionColumn;
 	private String loadByIdsSqlName;
-	private String deleteBySqlName;
-	private String deleteByColumn;
 	private boolean deleteAll;
 	
 	public MapperDefinition(DbTable table){
@@ -50,6 +49,11 @@ public class MapperDefinition {
 		updateSqlMap.put(sqlName, updateFields);
 	}
 
+	public void addDeleteSql(String sqlName, String whereCondition){
+		this.deleteMap.put(sqlName, whereCondition);
+	}
+	
+	
 	public DbTable getTable() {
 		return table;
 	}
@@ -72,6 +76,16 @@ public class MapperDefinition {
 
 	public void setUpdateSqlMap(Map<String, String[]> updateSqlMap) {
 		this.updateSqlMap = updateSqlMap;
+	}
+	
+	
+
+	public Map<String, String> getDeleteMap() {
+		return deleteMap;
+	}
+
+	public void setDeleteMap(Map<String, String> deleteMap) {
+		this.deleteMap = deleteMap;
 	}
 
 	public String getLoadMaxColumn() {
@@ -104,22 +118,6 @@ public class MapperDefinition {
 
 	public void setLoadByIdsSqlName(String loadByIdsSqlName) {
 		this.loadByIdsSqlName = loadByIdsSqlName;
-	}
-
-	public String getDeleteBySqlName() {
-		return deleteBySqlName;
-	}
-
-	public void setDeleteBySqlName(String deleteBySqlName) {
-		this.deleteBySqlName = deleteBySqlName;
-	}
-
-	public String getDeleteByColumn() {
-		return deleteByColumn;
-	}
-
-	public void setDeleteByColumn(String deleteByColumn) {
-		this.deleteByColumn = deleteByColumn;
 	}
 
 	public boolean isDeleteAll() {
